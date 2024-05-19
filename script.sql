@@ -235,4 +235,31 @@ WHERE MATCH(SHORTEST_PATH(Reader1(-(fo)->Reader2){1,3}))
 AND Reader1.name = N'Елена';
 GO
 
+SELECT @@SERVERNAME
+-- DESKTOP-FC09JS0\SQLEXPRESS01
+-- BooksAndReaders
+SELECT R1.id AS IdFirst
+, R1.name AS First
+, CONCAT(N'reader', R1.id) AS [First image name]
+, R2.id AS IdSecond
+, R2.name AS Second
+, CONCAT(N'reader', R2.id) AS [Second image name]
+FROM dbo.Reader AS R1
+, dbo.FriendOf AS F
+, dbo.Reader AS R2
+WHERE MATCH (R1-(F)->R2);
+GO
+
+SELECT R1.id AS IdReader
+, R1.name AS Reader
+, CONCAT(N'reader', R1.id) AS [Reader image name]
+, B.id AS IdBook
+, B.name AS Book
+, CONCAT(N'book', B.id) AS [Book image name]
+FROM dbo.Reader AS R1
+, Recommends AS Rec
+, Book AS B
+WHERE MATCH (R1-(Rec)->B);
+GO
+
 
